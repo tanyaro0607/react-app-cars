@@ -14,12 +14,18 @@ class App extends Component {
   }
 
   changeTitleHandler = (newTitle) => {
-    //метод для изменения состояния state
+    //setState - метод для изменения состояния state
     this.setState({
       pageTitle: newTitle
     })
-
   }
+
+  //Изменение заготовка чере инпут
+  handleInput = (event) => {
+    this.setState({
+      pageTitle: event.target.value
+    })
+  } 
 
   render() {
     const divStyle = {
@@ -31,6 +37,8 @@ class App extends Component {
     return (
       <div style={divStyle}>
         <h1>{this.state.pageTitle}</h1>
+
+        <input type='text' onChange={this.handleInput}/>
 
         <button 
           onClick={this.changeTitleHandler.bind(this, 'Changed!')}
