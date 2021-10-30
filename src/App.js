@@ -14,26 +14,31 @@ class App extends Component {
     showCars: false
   }
 
-  changeTitleHandler = (newTitle) => {
+  onChangeName(name, index) {
+    const car = this.state.cars[index]
+    car.name = name
+    const cars = [...this.state.cars] //получаем новый массив - клон, разворачивая старый
+    cars[index] = car
     //setState - метод для изменения состояния state
     this.setState({
-      pageTitle: newTitle
+      cars: cars
     })
   }
 
   toggleCarsHandler = () => {
-    //setState - метод для изменения состояния state
     this.setState({
       showCars: !this.state.showCars //инверсия true-false
     })
   }
 
-  // //Изменение заготовка чере инпут
-  // handleInput = (event) => {
-  //   this.setState({
-  //     pageTitle: event.target.value
-  //   })
-  // } 
+  deleteHandler(index) {
+    const cars = this.state.cars.concat() //concat создает копию массива
+    cars.splice(index, 1) //splice - удаляет элемент из массива(с какого, сколько шт)
+    
+    this.setState({
+      cars: cars 
+    })
+  }
 
   render() {
     const divStyle = {
@@ -43,8 +48,6 @@ class App extends Component {
     return (
       <div style={divStyle}>
         <h1>{this.state.pageTitle}</h1>
-
-        {/* <input type='text' onChange={this.handleInput}/> */}
 
         <button 
           onClick={this.toggleCarsHandler}
@@ -57,7 +60,8 @@ class App extends Component {
                   key={index}
                   name={car.name}
                   year={car.year}
-                  onChangeTitle={() => this.changeTitleHandler(car.name)}
+                  onDelete={this.deleteHandler.bind(this, index)}
+                  onChangeName={(event) => this.onChangeName(event.target.value, index)}
                 />
               )
             }) : null
